@@ -1,8 +1,35 @@
 #ifndef PID_H
 #define PID_H
+#include <uWS/uWS.h>
 
 class PID {
  public:
+  /**
+   * PID Errors
+   */
+  double p_error;
+  double i_error;
+  double d_error;
+
+  /**
+   * PID Coefficients
+   */ 
+  double Kp;
+  double Ki;
+  double Kd;
+  
+ /**
+  * Twiddle
+  */
+  double p[3];
+  double dp[3];
+
+  double best_err;
+  double total_error;
+  
+  int flag;
+  int pid_index;
+  
   /**
    * Constructor
    */
@@ -30,21 +57,19 @@ class PID {
    * @output The total PID error
    */
   double TotalError();
+  
+  /**
+  * Restart the simulator for twiddle
+  */
+  void Restart(uWS::WebSocket<uWS::SERVER> ws);
+  
+  /**
+   * Twiddle for tuning the hyper parameter
+   */
+  void Twiddle(double total_error);
 
  private:
-  /**
-   * PID Errors
-   */
-  double p_error;
-  double i_error;
-  double d_error;
 
-  /**
-   * PID Coefficients
-   */ 
-  double Kp;
-  double Ki;
-  double Kd;
 };
 
 #endif  // PID_H

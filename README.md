@@ -1,8 +1,56 @@
+<center><h2> Result </h2> </center>
+
+<p align="center">
+  <img src="pid_result.gif" />
+</p>
+
+
+
+
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## Reflection
 
+### Effect of the P, I, D Components.
+
+- **Proportional (P)**: Makes the car steer towards the CTE.
+It is achieved by multiplying the CTE by P values.
+It will never reach the CTE but  will oscillate around it, resulting in an unsecure behaviour. 
+If the value is too high, we would observe the car swerve around.
+That's the reason to use I and D temrs.
+
+- **Integral (I)**: Briefly, compensates the systematic bias which prevents the P-D controller from reaching the center line. 
+This is achieved acumulating the value of the surface between the car position and the CTE over time, and multipying this value by the I coefficient.
+
+- **Differential (D)**: This part of the controller corrects for the error from the previous state.
+This way the Proportional controller can have a lower value and the remaining correction is done by the Derivative controller.
+This leads to smoother steering. 
+
+### Final hyperparameters.
+
+For Parameter Tuning, I used the twiddle algorithm. Since the twiddle algorithm recursively finds the parameters, it takes a long time to converge.
+Instead I switched to manually tuning for getting a closer result to make the process faster.
+
+After figuring out the broad range of the values they were narrowed down to maximize the smoothness of the drive. Afterwards I tuned the parameters for the speed controller using a similar approach.
+
+|   | Final Steer   | Final Throttle| 
+|:-:|:-------------:|:-------------:| 
+| P | 0.06          | 0.5           | 
+| I | 0.00174       | 0.002         |
+| D | 1.8           | 10            |
+
+
+
+### Result of Each Compenent
+
+|![P Components ](./p.gif "P Components")| ![PD Components](./pd.gif "PD Components")| ![PID Components](./pid.gif "PID Components")|
+|:--:|:--:|:--:| 
+| *P* | *PD*  |  *PID*  |
+
+
+---
 ## Dependencies
 
 * cmake >= 3.5
